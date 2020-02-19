@@ -9,7 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -18,12 +20,20 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class UserModel implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idStudent;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "users_idStudent", cascade = CascadeType.ALL)
-	private Set<UserModel> userModel;
+	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinTable(name = "users_matches",
+						joinColumns = {@JoinColumn(name = "matches_idStudent")},
+						inverseJoinColumns={@JoinColumn(name="users_idStudent")})
+    Set<MatchesModel> matchesModel;
 	
 	private String name;
 	
@@ -41,7 +51,7 @@ public class UserModel implements Serializable {
 	
 	private int department;
 	
-	private int phoneNumber;
+	private long phoneNumber;
 	
 	private String password;
 	
@@ -101,10 +111,10 @@ public class UserModel implements Serializable {
 	public void setDepartment(int department) {
 		this.department = department;
 	}
-	public int getPhoneNumber() {
+	public long getPhoneNumber() {
 		return phoneNumber;
 	}
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 	public String getPassword() {
