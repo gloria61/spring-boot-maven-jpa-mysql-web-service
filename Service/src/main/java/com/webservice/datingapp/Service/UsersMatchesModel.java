@@ -1,17 +1,15 @@
 package com.webservice.datingapp.Service;
 
 import java.io.Serializable;
-import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -23,13 +21,17 @@ public class UsersMatchesModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name = "users_idStudent")
 	private UserModel users_idStudent;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name = "matches_idStudent")
 	private MatchesModel matches_idStudent;
+	
+	/*@ManyToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name = "EMP_ID")
+    private Employee employee;*/
 
 	public Long getId() {
 		return id;

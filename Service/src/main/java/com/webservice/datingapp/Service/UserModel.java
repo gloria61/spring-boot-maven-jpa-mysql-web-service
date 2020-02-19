@@ -1,7 +1,8 @@
 package com.webservice.datingapp.Service;
 
 import java.io.Serializable;
-
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -21,7 +22,8 @@ public class UserModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idStudent;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users_idStudent")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "users_idStudent", cascade = CascadeType.ALL)
+	private Set<UserModel> userModel;
 	
 	private String name;
 	

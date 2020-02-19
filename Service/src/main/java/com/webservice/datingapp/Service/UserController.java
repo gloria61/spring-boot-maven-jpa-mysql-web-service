@@ -20,7 +20,7 @@ import com.webservice.datingapp.Service.UserModel;
 public class UserController {
 	
 	@Autowired
-	ServiceRepository repository;
+	UserRepository repository;
 
 	@GetMapping("/users")
 	public List<UserModel> getAllUsers(){

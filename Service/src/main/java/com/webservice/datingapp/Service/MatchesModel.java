@@ -2,7 +2,9 @@ package com.webservice.datingapp.Service;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -18,16 +20,23 @@ import javax.persistence.TemporalType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "matches")
 @EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = {"date"}, allowGetters = true)
 public class MatchesModel implements Serializable {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idStudent;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "matches_idStudent")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "matches_idStudent", cascade = CascadeType.ALL)
+	private Set<MatchesModel> matchesModel;
+	
+	/*@OneToMany(fetch = FetchType.EAGER,mappedBy="matches_idStudent",cascade = CascadeType.ALL)
+    private Set<Employee_Address> employeeAddress;*/
 	
 	private int decision;
 	
